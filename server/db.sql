@@ -11,7 +11,8 @@ CREATE TABLE snippet(
 DROP TABLE IF EXISTS tag CASCADE;
 CREATE TABLE tag(
   tag_id SERIAL PRIMARY KEY,
-  name VARCHAR(50)
+  name VARCHAR(50),
+  color VARCHAR(7)
 );
 
 DROP TABLE IF EXISTS annotation;
@@ -33,7 +34,11 @@ INSERT INTO snippet (description) VALUES('A small river named Duden flows by the
 INSERT INTO snippet (description) VALUES('On Monday night, Mr. Fallon will have a co-host for the first time: The rapper Cardi B, who just released her first album, "Invasion of Privacy."');
 
 -- TAGS
-INSERT INTO tag (name) VALUES('PERSON');
-INSERT INTO tag (name) VALUES('PLACE');
-INSERT INTO tag (name) VALUES('DATE');
-INSERT INTO tag (name) VALUES('WEATHER');
+INSERT INTO tag (name, color) VALUES('PERSON', '#84d2ff');
+INSERT INTO tag (name, color) VALUES('PLACE', '#84d');
+INSERT INTO tag (name, color) VALUES('DATE', '#8ff');
+INSERT INTO tag (name, color) VALUES('WEATHER', '#d2ff');
+
+-- ANNOTATIONS
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(64, 71, 2, 1);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(76, 87, 2, 1);

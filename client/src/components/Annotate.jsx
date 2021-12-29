@@ -1,9 +1,22 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+import { TextAnnotator } from 'react-text-annotate';
+
 function Annotate({ snippet }) {
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState('PERSON');
+  const [annotation, setAnnotation] = useState([]);
+  console.log(annotation);
+
+  const tagColors = {};
+  tags.forEach(tag => (tagColors[tag.name] = tag.color));
+
+  const getAnnotations = async id => {
+    return axios
+      .get(`/api/annotations/${id}`)
+      .then(res => setAnnotation(res.data));
+  };
 
   useEffect(() => {
     const getTags = async () => {
@@ -25,6 +38,7 @@ function Annotate({ snippet }) {
         className='btn btn-warning'
         data-bs-toggle='modal'
         data-bs-target={`#snippet-${snippet.snippet_id}`}
+        onClick={() => getAnnotations(snippet.snippet_id)}
       >
         Annotate
       </button>
@@ -53,7 +67,20 @@ function Annotate({ snippet }) {
                   </option>
                 ))}
               </select>
-              <p>{snippet.description}</p>
+
+              <TextAnnotator
+                content={snippet.description}
+                value={annotation}
+                onChange={value => {
+                  console.log('here', value);
+                  setAnnotation(value);
+                }}
+                getSpan={span => ({
+                  ...span,
+                  tag: tag,
+                  color: tagColors[tag],
+                })}
+              />
             </div>
             <div className='modal-footer'>
               <button

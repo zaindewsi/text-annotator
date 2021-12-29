@@ -38,11 +38,8 @@ app.post('/api/snippets', async (req, res) => {
 app.delete('/api/snippets/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteTodo = await pool.query(
-      'DELETE FROM snippet WHERE snippet_id = $1',
-      [id],
-    );
-    res.json(deleteTodo);
+    await pool.query('DELETE FROM snippet WHERE snippet_id = $1', [id]);
+    res.json({ success: true });
   } catch (error) {
     console.error(error);
   }
@@ -51,10 +48,24 @@ app.delete('/api/snippets/:id', async (req, res) => {
 // TAGS
 app.get('/api/tags', async (req, res) => {
   try {
-    const allTodos = await pool.query('SELECT * FROM tag');
-    res.json(allTodos.rows);
+    const allTags = await pool.query('SELECT * FROM tag');
+    res.json(allTags.rows);
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+  }
+});
+
+// ANNOTATIONS
+app.get('/api/annotations/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const annotationsForSnippet = await pool.query(
+      'SELECT start, finish as end, tag.name as tag FROM annotation JOIN tag ON annotation.tag_id = tag.tag_id WHERE snippet_id = $1',
+      [id],
+    );
+    res.json(annotationsForSnippet.rows);
+  } catch (error) {
+    console.error(error);
   }
 });
 
