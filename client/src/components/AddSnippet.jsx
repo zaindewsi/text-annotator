@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import Button from './Button';
 
 function AddSnippet({ setLoading }) {
   const [snippet, setSnippet] = useState('');
@@ -36,7 +37,7 @@ function AddSnippet({ setLoading }) {
           required
           maxLength={255}
         />
-        <button className='btn btn-success'>Add</button>
+        <Button className='btn btn-success' text='Add' />
       </form>
       <div className={'d-flex justify-content-end'}>
         <p>{counter} character(s) remaining</p>

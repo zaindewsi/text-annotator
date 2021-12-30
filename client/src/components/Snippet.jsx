@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Annotate from './Annotate';
+import Button from './Button';
 
 function Snippet({ snippet, setLoading }) {
   const handleDelete = async id => {
@@ -16,12 +17,11 @@ function Snippet({ snippet, setLoading }) {
         <Annotate snippet={snippet} />
       </td>
       <td>
-        <button
+        <Button
           className='btn btn-danger bg-danger'
-          onClick={() => handleDelete(snippet.snippet_id)}
-        >
-          Delete
-        </button>
+          handleClick={() => handleDelete(snippet.snippet_id)}
+          text='Delete'
+        />
       </td>
     </tr>
   );

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { TokenAnnotator } from 'react-text-annotate';
+import Button from './Button';
 import Tags from './Tags';
 
 function Annotate({ snippet }) {
@@ -40,15 +41,14 @@ function Annotate({ snippet }) {
 
   return (
     <>
-      <button
+      <Button
         type='button'
         className='btn btn-warning'
-        data-bs-toggle='modal'
-        data-bs-target={`#snippet-${snippet.snippet_id}`}
-        onClick={getAnnotations}
-      >
-        Annotate
-      </button>
+        toggle='modal'
+        target={`#snippet-${snippet.snippet_id}`}
+        handleClick={getAnnotations}
+        text='Annotate'
+      />
       <div
         className='modal fade'
         id={`snippet-${snippet.snippet_id}`}
@@ -59,12 +59,12 @@ function Annotate({ snippet }) {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title'>Snippet {snippet.snippet_id}</h5>
-              <button
+              <Button
                 type='button'
                 className='btn-close'
-                data-bs-dismiss='modal'
-                aria-label='Close'
-              ></button>
+                dismiss='modal'
+                abel='Close'
+              />
             </div>
             <div className='modal-body'>
               <Tags tag={tag} tags={tags} setTag={setTag} getTags={getTags} />
@@ -84,21 +84,19 @@ function Annotate({ snippet }) {
               />
             </div>
             <div className='modal-footer'>
-              <button
+              <Button
                 type='button'
                 className='btn btn-secondary'
-                data-bs-dismiss='modal'
-              >
-                Close
-              </button>
-              <button
+                text='Close'
+                dismiss='modal'
+              />
+              <Button
                 type='button'
                 className='btn btn-primary'
-                onClick={handleSave}
-                data-bs-dismiss='modal'
-              >
-                Save changes
-              </button>
+                text='Save'
+                dismiss='modal'
+                handleClick={handleSave}
+              />
             </div>
           </div>
         </div>

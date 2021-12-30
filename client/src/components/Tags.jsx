@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Button from './Button';
 
 function Tags({ tag, setTag, tags, getTags }) {
   const [createNewTag, setCreateNewTag] = useState(false);
@@ -69,7 +70,7 @@ function Tags({ tag, setTag, tags, getTags }) {
             value={newTagColor}
             onChange={e => setNewTagColor(e.target.value)}
           />
-          <button className='btn btn-primary'>OK</button>
+          <Button type='submit' className='btn btn-primary' text='OK' />
         </form>
       )}
     </>
