@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className='container'>
-      <h1 className='text-center'>Filament Annotations</h1>
+      <h1 className='text-center'>Filament Text Annotator</h1>
       <AddSnippet setLoading={setLoading} />
       <ListSnippets snippets={snippets} setLoading={setLoading} />
     </div>

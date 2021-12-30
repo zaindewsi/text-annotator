@@ -55,6 +55,19 @@ app.get('/api/tags', async (req, res) => {
   }
 });
 
+app.post('/api/snippets', async (req, res) => {
+  try {
+    const { snippet } = req.body;
+    const newSnippet = await pool.query(
+      'INSERT INTO snippet (description) VALUES($1) RETURNING *',
+      [snippet],
+    );
+    res.json(newSnippet.rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // ANNOTATIONS
 app.get('/api/annotations/:id', async (req, res) => {
   try {
@@ -77,28 +90,23 @@ app.put('/api/annotations/:id', async (req, res) => {
       snippet_id,
     ]);
 
-    const annotations = req.body.map(async annotation => {
+    let result = [];
+
+    const annotations = req.body;
+    for (let annotation of annotations) {
       const { start, end, tag } = annotation;
       const id = await pool.query('SELECT tag_id FROM tag WHERE name = $1', [
         tag,
       ]);
       const { tag_id } = id.rows[0];
-      return pool.query(
+      const newAnnotations = await pool.query(
         'INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES($1,$2,$3,$4) RETURNING *',
         [start, end, tag_id, snippet_id],
       );
-    });
-    res.json(annotations);
-  } catch (error) {
-    console.error(error);
-  }
-});
 
-app.delete('/api/annotations/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    await pool.query('DELETE FROM annotation WHERE snippet_id = $1', [id]);
+      result.push(newAnnotations.rows[0]);
+    }
+    res.json(result);
   } catch (error) {
     console.error(error);
   }

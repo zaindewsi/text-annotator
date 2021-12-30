@@ -5,7 +5,7 @@ import { TokenAnnotator } from 'react-text-annotate';
 
 function Annotate({ snippet }) {
   const [tags, setTags] = useState([]);
-  const [tag, setTag] = useState('PLACE');
+  const [tag, setTag] = useState('PERSON');
   const [annotations, setAnnotations] = useState([]);
 
   const tagColors = {};
@@ -14,13 +14,14 @@ function Annotate({ snippet }) {
   const getAnnotations = async () => {
     return axios
       .get(`/api/annotations/${snippet.snippet_id}`)
-      .then(res => setAnnotations(res.data));
+      .then(res => setAnnotations(res.data))
+      .catch(err => console.error(err));
   };
 
   const handleSave = async () => {
     return axios
       .put(`/api/annotations/${snippet.snippet_id}`, annotations)
-      .then(res => console.log(res.data))
+      .then(res => setAnnotations(res.data))
       .catch(err => console.error(err));
   };
 
@@ -66,7 +67,11 @@ function Annotate({ snippet }) {
               ></button>
             </div>
             <div className='modal-body'>
-              <select value={tag} onChange={e => setTag(e.target.value)}>
+              <select
+                value={tag}
+                onChange={e => setTag(e.target.value)}
+                className='mb-2'
+              >
                 {tags.map(tag => (
                   <option value={tag.name} key={tag.tag_id}>
                     {tag.name}

@@ -1,5 +1,5 @@
--- DROP DATABASE IF EXISTS filament_annotations;
--- CREATE DATABASE filament_annotations;
+-- DROP DATABASE IF EXISTS text_annotator_api;
+-- CREATE DATABASE text_annotator_api;
 -- \c filament_annotations;
 
 DROP TABLE IF EXISTS snippet CASCADE;
@@ -35,10 +35,13 @@ INSERT INTO snippet (description) VALUES('On Monday night, Mr. Fallon will have 
 
 -- TAGS
 INSERT INTO tag (name, color) VALUES('PERSON', '#84d2ff');
-INSERT INTO tag (name, color) VALUES('PLACE', '#84d');
-INSERT INTO tag (name, color) VALUES('DATE', '#8ff');
-INSERT INTO tag (name, color) VALUES('WEATHER', '#d2ff');
+INSERT INTO tag (name, color) VALUES('PLACE', '#8ff000');
+INSERT INTO tag (name, color) VALUES('DATE', '#8fffff');
+INSERT INTO tag (name, color) VALUES('WEATHER', '#ffff00');
 
 -- ANNOTATIONS
 INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(11, 12, 2, 1);
 INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(13, 14, 2, 1);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(3, 5, 1, 3);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(15, 17, 1, 3);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(1, 2, 3, 3);
