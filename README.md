@@ -2,7 +2,7 @@
 
 ## Get Started
 
-- Fork and clone this repository.
+- Fork and/or clone this repository.
 
 ### Server Setup
 
