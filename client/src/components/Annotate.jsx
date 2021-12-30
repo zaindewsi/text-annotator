@@ -1,21 +1,27 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { TextAnnotator } from 'react-text-annotate';
+import { TokenAnnotator } from 'react-text-annotate';
 
 function Annotate({ snippet }) {
   const [tags, setTags] = useState([]);
-  const [tag, setTag] = useState('PERSON');
-  const [annotation, setAnnotation] = useState([]);
-  console.log(annotation);
+  const [tag, setTag] = useState('PLACE');
+  const [annotations, setAnnotations] = useState([]);
 
   const tagColors = {};
   tags.forEach(tag => (tagColors[tag.name] = tag.color));
 
-  const getAnnotations = async id => {
+  const getAnnotations = async () => {
     return axios
-      .get(`/api/annotations/${id}`)
-      .then(res => setAnnotation(res.data));
+      .get(`/api/annotations/${snippet.snippet_id}`)
+      .then(res => setAnnotations(res.data));
+  };
+
+  const handleSave = async () => {
+    return axios
+      .put(`/api/annotations/${snippet.snippet_id}`, annotations)
+      .then(res => console.log(res.data))
+      .catch(err => console.error(err));
   };
 
   useEffect(() => {
@@ -29,7 +35,7 @@ function Annotate({ snippet }) {
     };
 
     getTags();
-  }, []);
+  }, [annotations]);
 
   return (
     <>
@@ -38,7 +44,7 @@ function Annotate({ snippet }) {
         className='btn btn-warning'
         data-bs-toggle='modal'
         data-bs-target={`#snippet-${snippet.snippet_id}`}
-        onClick={() => getAnnotations(snippet.snippet_id)}
+        onClick={getAnnotations}
       >
         Annotate
       </button>
@@ -67,19 +73,19 @@ function Annotate({ snippet }) {
                   </option>
                 ))}
               </select>
-
-              <TextAnnotator
-                content={snippet.description}
-                value={annotation}
+              <TokenAnnotator
+                tokens={snippet.description.split(' ')}
+                value={annotations}
                 onChange={value => {
-                  console.log('here', value);
-                  setAnnotation(value);
+                  setAnnotations(value);
                 }}
-                getSpan={span => ({
-                  ...span,
-                  tag: tag,
-                  color: tagColors[tag],
-                })}
+                getSpan={span => {
+                  return {
+                    ...span,
+                    tag: tag,
+                    color: tagColors[tag],
+                  };
+                }}
               />
             </div>
             <div className='modal-footer'>
@@ -90,7 +96,12 @@ function Annotate({ snippet }) {
               >
                 Close
               </button>
-              <button type='button' className='btn btn-primary'>
+              <button
+                type='button'
+                className='btn btn-primary'
+                onClick={handleSave}
+                data-bs-dismiss='modal'
+              >
                 Save changes
               </button>
             </div>

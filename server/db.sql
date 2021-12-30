@@ -40,5 +40,5 @@ INSERT INTO tag (name, color) VALUES('DATE', '#8ff');
 INSERT INTO tag (name, color) VALUES('WEATHER', '#d2ff');
 
 -- ANNOTATIONS
-INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(64, 71, 2, 1);
-INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(76, 87, 2, 1);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(11, 12, 2, 1);
+INSERT INTO annotation (start, finish, tag_id, snippet_id) VALUES(13, 14, 2, 1);
