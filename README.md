@@ -6,13 +6,15 @@
 
 ### Server Setup
 
-- Create the database
+- Create the database with your PSQL user
 
   `CREATE DATABASE text_annotator_api;`
 
+- Import tables and seeds
+
   ` \c text_annotator_api;`
 
-  `\i server/db.sql;`
+  ` \i server/db.sql;`
 
 - Copy the .env.example file to create a .env with the correct DB credentials
 
