@@ -8,11 +8,13 @@
 
 - Create the database
 
-  `DROP DATABASE IF EXISTS text_annotator_api;`
-
   `CREATE DATABASE text_annotator_api;`
 
   ` \c text_annotator_api;`
+
+  `\i server/db.sql;`
+
+- Copy the .env.example file to create a .env with the correct DB credentials
 
 - Install dependencies and start the server
 

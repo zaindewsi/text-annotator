@@ -6,7 +6,7 @@ function Snippet({ snippet, setLoading }) {
     return axios
       .delete(`/api/snippets/${id}`)
       .then(() => setLoading(true))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err.message));
   };
 
   return (

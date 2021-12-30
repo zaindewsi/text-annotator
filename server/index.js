@@ -31,7 +31,7 @@ app.post('/api/snippets', async (req, res) => {
     );
     res.json(newSnippet.rows[0]);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
@@ -41,7 +41,7 @@ app.delete('/api/snippets/:id', async (req, res) => {
     await pool.query('DELETE FROM snippet WHERE snippet_id = $1', [id]);
     res.json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
@@ -51,20 +51,20 @@ app.get('/api/tags', async (req, res) => {
     const allTags = await pool.query('SELECT * FROM tag');
     res.json(allTags.rows);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
-app.post('/api/snippets', async (req, res) => {
+app.post('/api/tags', async (req, res) => {
   try {
-    const { snippet } = req.body;
-    const newSnippet = await pool.query(
-      'INSERT INTO snippet (description) VALUES($1) RETURNING *',
-      [snippet],
+    const { newTagName, newTagColor } = req.body;
+    const newTag = await pool.query(
+      'INSERT INTO tag (name, color) VALUES($1, $2) RETURNING *',
+      [newTagName.toUpperCase(), newTagColor],
     );
-    res.json(newSnippet.rows[0]);
+    res.json(newTag.rows[0]);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
@@ -78,7 +78,7 @@ app.get('/api/annotations/:id', async (req, res) => {
     );
     res.json(annotationsForSnippet.rows);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
@@ -108,7 +108,7 @@ app.put('/api/annotations/:id', async (req, res) => {
     }
     res.json(result);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 

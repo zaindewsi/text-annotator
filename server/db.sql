@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS tag CASCADE;
 CREATE TABLE tag(
   tag_id SERIAL PRIMARY KEY,
   name VARCHAR(50),
-  color VARCHAR(7)
+  color VARCHAR(50)
 );
 
 DROP TABLE IF EXISTS annotation;

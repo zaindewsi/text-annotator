@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
 import { TokenAnnotator } from 'react-text-annotate';
+import Tags from './Tags';
 
 function Annotate({ snippet }) {
   const [tags, setTags] = useState([]);
@@ -15,26 +15,26 @@ function Annotate({ snippet }) {
     return axios
       .get(`/api/annotations/${snippet.snippet_id}`)
       .then(res => setAnnotations(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err.message));
   };
 
   const handleSave = async () => {
     return axios
       .put(`/api/annotations/${snippet.snippet_id}`, annotations)
       .then(res => setAnnotations(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err.message));
+  };
+
+  const getTags = async () => {
+    return axios
+      .get('/api/tags')
+      .then(res => {
+        setTags(res.data);
+      })
+      .catch(err => console.error(err.message));
   };
 
   useEffect(() => {
-    const getTags = async () => {
-      return axios
-        .get('/api/tags')
-        .then(res => {
-          setTags(res.data);
-        })
-        .catch(err => console.error(err));
-    };
-
     getTags();
   }, [annotations]);
 
@@ -67,17 +67,7 @@ function Annotate({ snippet }) {
               ></button>
             </div>
             <div className='modal-body'>
-              <select
-                value={tag}
-                onChange={e => setTag(e.target.value)}
-                className='mb-2'
-              >
-                {tags.map(tag => (
-                  <option value={tag.name} key={tag.tag_id}>
-                    {tag.name}
-                  </option>
-                ))}
-              </select>
+              <Tags tag={tag} tags={tags} setTag={setTag} getTags={getTags} />
               <TokenAnnotator
                 tokens={snippet.description.split(' ')}
                 value={annotations}
