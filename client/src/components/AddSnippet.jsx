@@ -6,7 +6,7 @@ function AddSnippet({ setLoading }) {
   const [snippet, setSnippet] = useState('');
   const [counter, setCounter] = useState(255);
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     return axios

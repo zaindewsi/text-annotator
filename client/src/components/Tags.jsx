@@ -17,7 +17,7 @@ function Tags({ tag, setTag, tags, getTags }) {
     }
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     return axios

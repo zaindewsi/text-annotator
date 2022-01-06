@@ -8,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getSnippets = async () => {
+    const getSnippets = () => {
       return axios
         .get('/api/snippets')
         .then(res => {

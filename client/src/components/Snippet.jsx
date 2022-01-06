@@ -3,7 +3,7 @@ import Annotate from './Annotate';
 import Button from './Button';
 
 function Snippet({ snippet, setLoading }) {
-  const handleDelete = async id => {
+  const handleDelete = id => {
     return axios
       .delete(`/api/snippets/${id}`)
       .then(() => setLoading(true))

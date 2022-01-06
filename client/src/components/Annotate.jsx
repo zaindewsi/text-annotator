@@ -12,21 +12,21 @@ function Annotate({ snippet }) {
   const tagColors = {};
   tags.forEach(tag => (tagColors[tag.name] = tag.color));
 
-  const getAnnotations = async () => {
+  const getAnnotations = () => {
     return axios
       .get(`/api/annotations/${snippet.snippet_id}`)
       .then(res => setAnnotations(res.data))
       .catch(err => console.error(err.message));
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     return axios
       .put(`/api/annotations/${snippet.snippet_id}`, annotations)
       .then(res => setAnnotations(res.data))
       .catch(err => console.error(err.message));
   };
 
-  const getTags = async () => {
+  const getTags = () => {
     return axios
       .get('/api/tags')
       .then(res => {
